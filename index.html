@@ -6,64 +6,90 @@
   <!-- MathJax v3 -->
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
   <title>Common Benchmarks Undervalue the Generalization Power of Programmatic Policies</title>
+
+  <!-- Font: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    /* Base styling */
-    body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f9f9f9; margin: 0; padding: 0; }
-    .container { max-width: 800px; margin: 40px auto; background: #fff; padding: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    /* Base styling (kept) + light modern polish */
+    body {
+      font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+      background: #f6f7fb; margin: 0; padding: 0;
+      -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+    }
+    .container {
+      max-width: 900px; margin: 40px auto; background: #fff; padding: 34px;
+      border-radius: 16px; box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 10px 28px rgba(0,0,0,.06);
+      border: 1px solid #e9ebf0;
+    }
 
     /* Header */
-    h1, section h2, section h3 { text-align: center; color: #333; }
-    h1 { font-size: 2em; margin-bottom: 10px; }
-    .authors { text-align: center; margin-bottom: 10px; }
-    .authors a { color: #333; text-decoration: none; margin: 0 5px; }
-    .affiliations { text-align: center; color: #555; margin-bottom: 5px; }
-    .affiliations a { color: #0077cc; text-decoration: none; margin: 0 5px; }
+    h1, section h2, section h3 { text-align: center; color: #1f2937; }
+    h1 { font-size: clamp(28px, 3.2vw, 40px); margin-bottom: 10px; }
+    .authors { text-align: center; margin-bottom: 10px; color:#64748b }
+    .authors a { color: inherit; text-decoration: none; margin: 0 5px; }
+    .affiliations { text-align: center; color: #556; margin-bottom: 5px; }
+    .affiliations a { color: #2563eb; text-decoration: none; margin: 0 5px; }
     .links { text-align: center; margin-bottom: 30px; }
-    .links a { color: #0077cc; text-decoration: none; margin: 0 10px; font-weight: bold; }
+    .links a {
+      color: #111; text-decoration: none; margin: 0 10px; font-weight: 600;
+      border: 1px solid #e9ebf0; padding: 8px 12px; border-radius: 12px; background:#fff;
+    }
+    .links a:hover { border-color:#2563eb; color:#2563eb }
 
     /* Divider */
-    .divider { border-top: 1px solid #e0e0e0; margin: 30px 0; }
+    .divider { border-top: 1px solid #eceff5; margin: 30px 0; }
 
     /* Sections */
     section { margin-bottom: 50px; }
     section p { color: #555; margin-bottom: 20px; }
 
     /* Figures & Captions inside flex containers */
-    .videos-container, .images-container { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px; }
+    .videos-container, .images-container {
+      display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px;
+    }
     .videos-container figure, .images-container figure {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      max-width: 45%;
-      margin: 0;
+      display: flex; flex-direction: column; align-items: center; max-width: 45%; margin: 0;
     }
     .videos-container figure video, .images-container figure img {
-      width: 100%;
-      height: auto;
-      border: 1px solid #ddd;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      width: 100%; height: auto; border: 1px solid #e9ebf0; box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      border-radius: 14px;
     }
-    figcaption { text-align: center; font-size: 0.9em; color: #777; margin-top: 5px; }
+    figcaption { text-align: center; font-size: 0.9em; color: #6b7280; margin-top: 6px; }
 
     /* Single media centering */
-    figure.single { max-width: 100%; margin: 0 auto 30px; }
+    figure.single { max-width: 880px; margin: 0 auto 30px; }
     figure.single video { max-width: 80%; display: block; margin: 0 auto; }
 
     /* Tables & single images */
-    figure.table-figure { margin: 20px auto; max-width: 700px; }
-    figure.table-figure img { width: 90%; height: auto; display: block; margin: 0 auto; }
+    figure.table-figure { margin: 20px auto; max-width: 760px; }
+    figure.table-figure img { width: 90%; height: auto; display: block; margin: 0 auto; border-radius: 12px; border:1px solid #e9ebf0; }
 
-    /* Citation section */
-    .citation-section { margin-top: 40px; }
+    /* Make the first TORCS video nicely centered */
+    figure.single .media-wrap { max-width: 760px; margin: 0 auto; }
+
+    /* Citation section + copy button (button is injected, no content change) */
+    .citation-section { margin-top: 40px; position: relative; }
     .citation-block {
-      background-color: #f5f5f5;
-      border: 1px solid #ddd;
-      padding: 15px;
-      overflow-x: auto;
-      font-family: monospace;
-      font-size: 0.9em;
-      white-space: pre;
+      background-color: #fbfcff; border: 1px dashed #e2e8f0; padding: 16px 54px 16px 16px;
+      overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 0.95em; white-space: pre-wrap; color:#0f172a; border-radius: 14px; position: relative;
     }
+    .copy-btn {
+      position: absolute; top: 8px; right: 8px; padding: 6px 10px;
+      border: 1px solid #e2e8f0; background:#fff; border-radius: 10px; font-weight: 600; cursor: pointer;
+    }
+    .copy-btn:hover { border-color:#2563eb; color:#2563eb }
+
+    /* Hero centering (wrapper is added by JS at runtime) */
+    .hero {
+      min-height: 45vh; display: flex; flex-direction: column; justify-content: center;
+    }
+
+    /* Subtle media card look */
+    .media-card { border:1px solid #e9ebf0; background: linear-gradient(to bottom, #fff, #fafbff); padding:10px; border-radius:14px }
   </style>
 </head>
 <body>
@@ -77,11 +103,11 @@
     </div>
     <div class="affiliations">
       <a href="https://www.ualberta.ca">University of Alberta</a> &
-      <a href="https://www.amii.ca">Amii</a>
+      <a href="https://www.amii.ca">Amii</a> <br><br>
     </div>
     <div class="links">
-      <a href="https://arxiv.org/abs/2506.14162">[Paper]</a>
-      <a href="https://github.com/lelis-research/Common-Benchmarks-Undervalue-the-Generalization-Power-of-Programmatic-Policies">[Code]</a>
+      <a href="https://arxiv.org/abs/2506.14162">Paper</a>
+      <a href="https://github.com/lelis-research/Common-Benchmarks-Undervalue-the-Generalization-Power-of-Programmatic-Policies">Code</a>
     </div>
     <div class="divider"></div>
     <section>
@@ -92,27 +118,29 @@
     <section>
       <h2>TORCS Results</h2>
       <p>For The Open Car Racing Simulator (TORCS) we show that using a more cautious reward function slows down the agent, enabling better generalization results.</p>
-      <figure class="table-figure">
+      <figure class="table-figure media-card">
         <img src="docs/torcs_results.png" alt="TORCS Results Table" style="max-width:90%; display:block; margin:0 auto;">
       </figure>
       <h3>Training Track Performance</h3>
       <figure class="single">
-        <video controls loop>
-          <source src="docs/gtrack1.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
+        <div class="media-wrap">
+          <video controls loop>
+            <source src="docs/gtrack1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
         <figcaption>Agent on G-TRACK-1 training environment</figcaption>
       </figure>
       <h3>Generalization Comparison</h3>
       <div class="videos-container">
-        <figure>
+        <figure class="media-card">
           <video controls loop>
             <source src="docs/eroad_generalize.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
           <figcaption>Successful generalization on E-ROAD using cautious reward function</figcaption>
         </figure>
-        <figure>
+        <figure class="media-card">
           <video controls loop>
             <source src="docs/eroad_not_generalize.mp4" type="video/mp4">
             Your browser does not support the video tag.
@@ -124,11 +152,11 @@
     <section>
       <h2>Karel Results</h2>
       <p>Using sparse observation and augmenting observations with the previous action allows fully-connected policies to generalize to larger grids (100×100), outperforming convolutional and LSTM baselines that fail to scale and perform better than <a href="https://clvrai.github.io/leaps/">LEAPS</a>.</p>
-      <figure class="table-figure">
+      <figure class="table-figure media-card">
         <img src="docs/karel_results.png" alt="Karel Results Table">
       </figure>
       <div class="videos-container">
-        <figure>
+        <figure class="">
           <video controls loop>
             <source src="docs/trajectory_stair_climber_W12.mp4" type="video/mp4">
             Your browser does not support the video tag.
@@ -137,7 +165,7 @@
                 PPO with \(a_{t-1}\) on \(12\times 12\) grid
            </figcaption>
         </figure>
-        <figure>
+        <figure class="">
           <video controls loop>
             <source src="docs/trajectory_stair_climber_W100.mp4" type="video/mp4">
             Your browser does not support the video tag.
@@ -151,15 +179,15 @@
     <section>
       <h2>Proposed Benchmark</h2>
       <p>We introduce a SPARSE MAZE task, which has wider corridors than normal MAZE, requiring explicit memory (stacks or queues) to find shortest paths. Neural policies struggle, while programmatic search synthesizes an optimal BFS solution. We used <a href="https://deepmind.google/discover/blog/funsearch-making-new-discoveries-in-mathematical-sciences-using-large-language-models/">FunSearch</a> for generating programmatic policies for this section.</p>
-      <figure>
+      <figure class="media-card">
         <img src="docs/funsearch_results.png" alt="Funsearch Results" style="width: 80%; max-width:100%x; display:block; margin: 0 auto;">
       </figure>
       <div class="images-container">
-        <figure>
+        <figure class="media-card" style="max-width:45%">
           <img src="docs/maze_20.png" alt="Maze 20x20">
           <figcaption>Standard KAREL MAZE layout</figcaption>
         </figure>
-        <figure>
+        <figure class="media-card" style="max-width:45%">
           <img src="docs/widemaze_20.png" alt="Wide Maze 20x20">
           <figcaption>SPARSE MAZE layout</figcaption>
         </figure>
@@ -171,18 +199,87 @@
     <!-- Added citation section -->
     <section class="citation-section">
       <h2>Citation</h2>
-      <div class="citation-block">
-          @misc{rajabpour2025commonbenchmarksundervaluegeneralization,
-                title={Common Benchmarks Undervalue the Generalization Power of Programmatic Policies}, 
-                author={Amirhossein Rajabpour and Kiarash Aghakasiri and Sandra Zilles and Levi H. S. Lelis},
-                year={2025},
-                eprint={2506.14162},
-                archivePrefix={arXiv},
-                primaryClass={cs.LG},
-                url={https://arxiv.org/abs/2506.14162}, 
-          }
+      <div class="citation-block" id="citationBlock">
+@misc{rajabpour2025commonbenchmarksundervaluegeneralization,
+      title={Common Benchmarks Undervalue the Generalization Power of Programmatic Policies}, 
+      author={Amirhossein Rajabpour and Kiarash Aghakasiri and Sandra Zilles and Levi H. S. Lelis},
+      year={2025},
+      eprint={2506.14162},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2506.14162}, 
+}
       </div>
     </section>
   </div>
+
+  <script>
+    // 1) Make the top block a vertically centered "hero" without changing text content.
+    (function makeHero(){
+      const container = document.querySelector('.container');
+      const divider = container.querySelector('.divider');
+      const hero = document.createElement('div');
+      hero.className = 'hero';
+      // Move nodes from start until .divider into hero
+      const nodes = [];
+      for (let n = container.firstChild; n && n !== divider; n = n.nextSibling) nodes.push(n);
+      nodes.forEach(n => hero.appendChild(n));
+      container.insertBefore(hero, divider);
+    })();
+
+    // 2) Add a Copy button inside the citation block (like code blocks).
+    (function addCopy(){
+      const block = document.getElementById('citationBlock');
+      const btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.id = 'copyCitation';
+      btn.textContent = 'Copy';
+      block.parentElement.style.position = 'relative';
+      block.appendChild(btn); // inside the block
+      btn.addEventListener('click', async () => {
+        const text = block.innerText.trim();
+        try{
+          await navigator.clipboard.writeText(text);
+          const old = btn.textContent; btn.textContent = 'Copied!'; setTimeout(()=>btn.textContent=old, 1500);
+        }catch(e){
+          // Fallback: select text for manual copy
+          const range = document.createRange(); range.selectNodeContents(block);
+          const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+          btn.textContent = 'Press Ctrl/Cmd+C'; setTimeout(()=>{ sel.removeAllRanges(); btn.textContent='Copy'; }, 2000);
+        }
+      });
+    })();
+
+    // 3) Generate poster frames at 2s for TORCS videos (same-origin only).
+    (function posters(){
+      function setPosterAt(video, second){
+        const onMeta = () => {
+          const t = Math.min(Math.max(second, 0), (video.duration || second) - 0.05);
+          const seeked = () => {
+            try{
+              const c = document.createElement('canvas');
+              c.width = video.videoWidth || 640; c.height = video.videoHeight || 360;
+              c.getContext('2d').drawImage(video, 0, 0, c.width, c.height);
+              video.setAttribute('poster', c.toDataURL('image/jpeg', 0.85));
+            }catch(e){ /* likely cross-origin; ignore */ }
+            video.currentTime = 0;
+            video.removeEventListener('seeked', seeked);
+          };
+          video.addEventListener('seeked', seeked, {once:true});
+          try { video.currentTime = t; } catch(e) { /* some browsers block before metadata */ }
+        };
+        if (video.readyState >= 1) onMeta();
+        else video.addEventListener('loadedmetadata', onMeta, {once:true});
+      }
+
+      // Only the TORCS ones: by source filename
+      document.querySelectorAll('video').forEach(v=>{
+        const src = v.querySelector('source')?.getAttribute('src') || '';
+        if (/(gtrack1|eroad_generalize|eroad_not_generalize)\.mp4$/.test(src)) {
+          setPosterAt(v, 2);
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
