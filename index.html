@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- MathJax v3 -->
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
-  <title>Common Benchmarks Undervalue the Generalization Power of Programmatic Policies</title>
+  <title>Revisiting OOD Generalization in Programmatic RL</title>
 
   <!-- Font: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -94,7 +94,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Common Benchmarks Undervalue the Generalization Power of Programmatic Policies</h1>
+    <h1>Revisiting OOD Generalization in Programmatic RL</h1>
     <div class="authors">
       <a href="https://amirhossein-rajabpour.github.io/">Amirhossein Rajabpour</a>,
       <a href="https://scholar.google.co.uk/citations?user=UsE3he0AAAAJ&hl=en">Kiarash Aghakasiri</a>,
@@ -111,9 +111,10 @@
     </div>
     <div class="divider"></div>
     <section>
-      <h2>Overview</h2>
-      <p>We argue that commonly used benchmarks underestimate the out-of-distribution (OOD) generalization capabilities of programmatic policies. By controlling input sparsity and reward functions, we show neural networks can match or exceed programmatic policies on standard benchmarks,
-         and we propose new tasks that highlight scenarios where symbolic representations are advantageous. In the context of OOD generalization, we argue that programmatic representations should be used in problems that require computational constructs that neural models have difficulty learning, such as stacks and queues.</p>
+      <h2>Abstract</h2>
+      <p>
+        Programmatic policies are often reported to generalize better than neural policies in reinforcement learning (RL) benchmarks. We revisit some of these claims and show that much of the observed gap arises from uncontrolled experimental factors rather than intrinsic representational reasons. Re-evaluating three core benchmarks used in influential papers---TORCS, Karel, and Parking---we find that neural policies, when trained with a few modifications, such as sparse observations and cautious intrinsic reward functions, can match or exceed the out-of-distribution (OOD) generalization of programmatic policies. We argue that a representation enables OOD generalization if (i) the policy space it induces includes a generalizing policy and (ii) the search algorithm can find it. The neural and programmatic policies in prior work are comparable in OOD generalization because the domain-specific languages used induce policy spaces similar to those of neural networks, and our modifications help the gradient search find generalizing solutions. By disentangling representational factors from experimental confounds, we advance our understanding of what makes a representation succeed or fail at OOD generalization.
+      </p>
     </section>
     <section>
       <h2>TORCS Results</h2>
@@ -198,7 +199,7 @@
     
     <!-- Added citation section -->
     <section class="citation-section">
-      <h2>Citation</h2>
+      <h2>Citation (arXiv version, RLC 2025 programmatic RL workshop)</h2>
       <div class="citation-block" id="citationBlock">
 @misc{rajabpour2025commonbenchmarksundervaluegeneralization,
       title={Common Benchmarks Undervalue the Generalization Power of Programmatic Policies}, 
